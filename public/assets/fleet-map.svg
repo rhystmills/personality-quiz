@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Fleet tactical map">
+  <rect width="180" height="180" fill="#05070d"/>
+  <circle cx="100" cy="92" r="58" fill="#102034" stroke="#37d5ff" stroke-width="3"/>
+  <circle cx="100" cy="92" r="34" fill="none" stroke="#ffcf5a" stroke-width="2"/>
+  <path d="M29 121h37l-18 13zM64 51h34L81 63zM119 126h32l-16 12z" fill="#d8e4ee"/>
+  <path d="M47 121c21-25 48-39 87-43" fill="none" stroke="#ff4f5d" stroke-width="4" stroke-linecap="round"/>
+  <path d="M20 31h33M20 43h51M20 55h25" stroke="#37d5ff" stroke-width="3"/>
+</svg>

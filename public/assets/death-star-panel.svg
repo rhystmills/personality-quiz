@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Battle station command panel">
+  <rect width="180" height="180" fill="#05070d"/>
+  <circle cx="90" cy="90" r="62" fill="#101d2a" stroke="#37d5ff" stroke-width="3"/>
+  <circle cx="66" cy="65" r="18" fill="none" stroke="#ffcf5a" stroke-width="4"/>
+  <path d="M66 65 128 126" stroke="#ff4f5d" stroke-width="4"/>
+  <path d="M90 28v124M28 90h124" stroke="#37d5ff" stroke-width="2" opacity=".45"/>
+  <path d="M43 132h94M43 146h60" stroke="#ffcf5a" stroke-width="4" stroke-linecap="round"/>
+</svg>

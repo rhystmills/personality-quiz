@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Neon trade moon">
+  <rect width="180" height="180" fill="#05070d"/>
+  <circle cx="95" cy="82" r="52" fill="#171b27" stroke="#37d5ff" stroke-width="3"/>
+  <path d="M50 93c25 12 57 12 90-8" fill="none" stroke="#ffcf5a" stroke-width="4"/>
+  <path d="M65 56h60M57 119h77" stroke="#ff4f5d" stroke-width="4" stroke-linecap="round"/>
+  <rect x="34" y="132" width="112" height="22" fill="#0d1a28" stroke="#37d5ff" stroke-width="2"/>
+  <path d="M53 143h15M79 143h15M105 143h15" stroke="#ffcf5a" stroke-width="3"/>
+</svg>

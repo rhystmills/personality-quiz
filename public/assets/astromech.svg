@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Astromech droid display">
+  <rect width="180" height="180" fill="#05070d"/>
+  <path d="M56 70c0-24 68-24 68 0v68H56z" fill="#d8e4ee" stroke="#37d5ff" stroke-width="3"/>
+  <path d="M62 70c7-16 49-16 56 0" fill="#1d6dff"/>
+  <rect x="73" y="88" width="34" height="18" fill="#0d1a28"/>
+  <circle cx="90" cy="97" r="7" fill="#ff4f5d"/>
+  <path d="M48 138h84M62 138v22M118 138v22" stroke="#ffcf5a" stroke-width="6" stroke-linecap="round"/>
+  <path d="M31 49h31M118 49h31" stroke="#37d5ff" stroke-width="4" stroke-linecap="round"/>
+</svg>

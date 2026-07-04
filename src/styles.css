@@ -1,0 +1,45 @@
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: #141319;
+  color: #f6f1e8;
+  font-family:
+    "Courier New", "Roboto Mono", Monaco, "Lucida Console", monospace;
+}
+
+body {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+}
+
+#app-shell {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px;
+  box-sizing: border-box;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255, 79, 93, 0.16), transparent 27%),
+    radial-gradient(circle at 82% 78%, rgba(55, 213, 255, 0.16), transparent 27%),
+    linear-gradient(135deg, #03050a 0%, #0b1018 52%, #08070d 100%);
+}
+
+#game-root {
+  width: 640px;
+  height: 480px;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 48px);
+  box-shadow:
+    0 0 0 1px rgba(55, 213, 255, 0.34),
+    0 0 36px rgba(55, 213, 255, 0.16),
+    0 22px 80px rgba(0, 0, 0, 0.55);
+}
+
+canvas {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}

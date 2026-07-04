@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Red blade duel">
+  <rect width="180" height="180" fill="#05070d"/>
+  <path d="M36 143 144 35" stroke="#ff4f5d" stroke-width="9" stroke-linecap="round"/>
+  <path d="M36 143 144 35" stroke="#ffe2e5" stroke-width="3" stroke-linecap="round"/>
+  <path d="M34 145h27" stroke="#39455c" stroke-width="10" stroke-linecap="round"/>
+  <path d="M40 54h101M27 91h126M49 128h83" stroke="#37d5ff" stroke-width="2" opacity=".35"/>
+  <circle cx="90" cy="90" r="58" fill="none" stroke="#ffcf5a" stroke-width="2" opacity=".55"/>
+</svg>

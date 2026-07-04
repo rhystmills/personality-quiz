@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Cantina tactical scan">
+  <rect width="180" height="180" fill="#05070d"/>
+  <path d="M20 42h140v96H20z" fill="#0d1a28" stroke="#37d5ff" stroke-width="3"/>
+  <path d="M34 64h41M34 83h74M34 102h53M34 121h91" stroke="#ffcf5a" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="132" cy="78" r="16" fill="none" stroke="#ff4f5d" stroke-width="4"/>
+  <path d="M118 120c13-20 29-20 42 0" fill="none" stroke="#37d5ff" stroke-width="4"/>
+  <path d="M20 42 8 30M160 42l12-12M20 138 8 150M160 138l12 12" stroke="#37d5ff" stroke-width="3"/>
+</svg>

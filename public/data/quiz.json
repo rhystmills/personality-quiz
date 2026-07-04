@@ -1,0 +1,128 @@
+{
+  "title": "STAR WARS - MEET YOUR MATCH",
+  "subtitle": "WHICH CHARACTER ARE YOU?",
+  "startButton": "Initialize",
+  "guaranteedResultId": "obiwan",
+  "start": {
+    "image": "assets/star-wars-heroes.gif"
+  },
+  "result": {
+    "id": "obiwan",
+    "name": "Salacious B Crumb",
+    "image": "assets/crumb-4.gif",
+    "summary": "Spiteful and cowardly court jester for Jabba the Hutt – Crumb is loathed by all the creatures of Tattoine.",
+    "description": "This Kowakian monkey-lizard spent his early years cleaning latrines for a gang of Tusken Raiders. Cruel, disloyal and filthy: no act is too vile – anything to curry favour with his lord."
+  },
+  "questions": [
+    {
+      "id": "cantina",
+      "question": "A cantina on the edge of Hutt space goes silent when you enter. The band keeps playing, but every pilot, smuggler, and nervous moisture trader suddenly becomes fascinated by their drink.\n\nYour droid whispers that three factions have tracked you here, and one of them is already blocking the rear exit. Somewhere outside, a speeder engine starts, then cuts out. What does your next move reveal?",
+      "image": "assets/cantina-scan.svg",
+      "answers": [
+        "Smile like you expected this, buy one round for the room, and listen for who refuses the glass.",
+        "Head straight for the loudest troublemaker. If negotiations are inevitable, you prefer the version with witnesses.",
+        "Let the droid start a fake power failure while you move through the kitchen.",
+        "Stay still, read the exits, and make everyone else wonder why you are so calm."
+      ]
+    },
+    {
+      "id": "hyperspace",
+      "question": "Your ship drops out of hyperspace inside a debris field that was not on any chart. Shattered hull plates drift like frozen leaves, and a single emergency beacon repeats an old Republic code.\n\nThe navicomputer says the safest route costs six hours. The beacon might go dark in six minutes. Static crawls over the comms like a warning with teeth. Your crew is watching to see what kind of captain you become.",
+      "image": "assets/hyperspace-grid.svg",
+      "answers": [
+        "Thread the debris manually. Dangerous, yes, but the beacon is the only voice still asking for help.",
+        "Launch probes first, because bravery feels better when it arrives with telemetry.",
+        "Mark the coordinates for the nearest patrol and keep the ship moving.",
+        "Cut power, drift silent, and decide whether the beacon is a survivor or a trap."
+      ]
+    },
+    {
+      "id": "senate",
+      "question": "A Senate committee demands your testimony about a mission that technically succeeded, politically exploded, and left three ambassadors pretending they had never met you.\n\nThe chamber lights are too bright, the questions are designed to corner you, and somewhere above the gallery a holocam is broadcasting every hesitation. A procedural aide keeps smiling at exactly the wrong moments. How do you survive the performance?",
+      "image": "assets/senate-signal.svg",
+      "answers": [
+        "Answer only the question asked, then let silence do the rest of the work.",
+        "Tell the truth with such elegant phrasing that the committee needs a recess to realize what happened.",
+        "Name the real threat immediately. If the room dislikes clarity, that is a room problem.",
+        "Compliment procedure, request evidence logs, and quietly move the argument onto ground you prepared yesterday."
+      ]
+    },
+    {
+      "id": "temple",
+      "question": "In a sealed Jedi archive, you find a holocron that recognizes your voice before you touch it. The recording inside calls you by a title you have never earned and warns that a friend will betray the mission before sunrise.\n\nThe message might be prophecy, manipulation, or a test left by someone who knew your weaknesses very well. Somewhere deeper in the stacks, another holocron answers in your voice.",
+      "image": "assets/holocron.svg",
+      "answers": [
+        "Study the warning, but refuse to treat your friend as guilty before they choose.",
+        "Destroy the holocron. A future that needs fear to explain itself can stay sealed.",
+        "Share the message with the friend named in it and watch what honesty changes.",
+        "Cross-check the archive access logs. Ancient wisdom is still data, and data can be tampered with."
+      ]
+    },
+    {
+      "id": "duel",
+      "question": "A red blade ignites across a rain-slick landing platform. The enemy knows your name, your history, and exactly which old wound to press. Behind you, refugees climb into a transport whose engines are taking far too long to cycle.\n\nThere is no clean victory here, only time to buy and consequences to carry afterward. Rain turns the deck lights into red ghosts around your boots.",
+      "image": "assets/red-blade.svg",
+      "answers": [
+        "Draw the fight away from the transport, giving ground with purpose until the engines finally scream awake.",
+        "End it quickly. Mercy is admirable, but so is making sure the refugees live.",
+        "Keep talking. If the enemy wants your anger, deny them the satisfaction and steal their rhythm.",
+        "Drop the platform lights, vanish into rain and steam, and turn the terrain into your ally."
+      ]
+    },
+    {
+      "id": "droid",
+      "question": "A battered astromech rolls into your hangar carrying a star map, a scorch mark, and the attitude of someone who has already decided you are the least incompetent organic nearby.\n\nThe map points to a forgotten relay above a dead moon. The droid refuses to explain where it came from, but it keeps projecting one blinking word: urgent. Its dome swivels toward the stars as if time is personal.",
+      "image": "assets/astromech.svg",
+      "answers": [
+        "Trust the droid just enough to follow, and distrust the map enough to bring backup.",
+        "Run diagnostics first. Heroic quests can wait until you know what is leaking.",
+        "Ask the droid for one good reason. If it beeps with conviction, that counts.",
+        "Transmit the map to allies, then depart before anyone cautious can organize a meeting."
+      ]
+    },
+    {
+      "id": "desert",
+      "question": "Twin suns set over a desert settlement where everyone claims nothing important ever happens. At dusk, a child brings you a broken transmitter and says a voice from the dunes has been calling your name.\n\nThe locals fear old war machines buried beneath the sand, and the wind has started uncovering metal where there should only be stone. Far off, something huge shifts under the cooling sand.",
+      "image": "assets/twin-suns.svg",
+      "answers": [
+        "Walk into the dunes before nightfall, because fear grows larger when you let it wait.",
+        "Repair the transmitter and answer the voice from a defensible position.",
+        "Organize the settlement first. People survive legends better when they stop feeling alone.",
+        "Ask the child exactly what the voice sounded like, because details are where the Force tends to hide."
+      ]
+    },
+    {
+      "id": "fleet",
+      "question": "A Rebel fleet hides in the shadow of a gas giant while Imperial scanners sweep closer with each orbit. Your plan depends on a decoy transmission, a squadron of nervous pilots, and one cruiser captain who keeps asking whether you are certain.\n\nYou are not certain. The gas giant below turns slowly, hiding and revealing them by degrees. You are simply running out of ways to be wrong slowly.",
+      "image": "assets/fleet-map.svg",
+      "answers": [
+        "Give the captain certainty anyway. Morale is sometimes the first shield that has to hold.",
+        "Revise the plan in public so the pilots can see their doubts becoming useful.",
+        "Volunteer for the decoy run. If the risk is yours, the order sounds different.",
+        "Wait for the scanner rhythm, then move the entire fleet through the narrowest blind spot."
+      ]
+    },
+    {
+      "id": "market",
+      "question": "On a neon trade moon, a masked broker offers you the location of a missing Jedi text in exchange for one memory. Not a secret, not a confession: a memory.\n\nThey promise the trade is painless. They also know the name of the person you were thinking about before you arrived, which makes the deal feel less like commerce and more like bait. Neon rain ticks against the canopy like a countdown.",
+      "image": "assets/trade-moon.svg",
+      "answers": [
+        "Refuse the trade. Knowledge that begins by hollowing you out is already too expensive.",
+        "Offer a memory of failure. If the broker wants pain, make them carry a lesson too.",
+        "Turn the negotiation into theater while your ally traces the broker's signal.",
+        "Ask what memory they would surrender first. Predators reveal themselves when invited to be sentimental."
+      ]
+    },
+    {
+      "id": "final",
+      "question": "The final blast door opens onto a command bridge full of alarms, smoke, and people looking at you like the story has reached the part where someone becomes legendary.\n\nThe weapon is charging. The villain is waiting. Your friends are scattered across the station, each trusting you to choose the impossible thing in the correct order. The deck trembles as if the whole station is holding its breath.",
+      "image": "assets/death-star-panel.svg",
+      "answers": [
+        "Save the friends first. Plans can be rebuilt, but people are the reason plans matter.",
+        "Go straight for the weapon controls and accept that everyone else must improvise.",
+        "Confront the villain, because sometimes the shortest route to the system is through the person protecting it.",
+        "Split the mission into seconds, assign every ally one task, and carry the heaviest uncertainty yourself."
+      ]
+    }
+  ]
+}
