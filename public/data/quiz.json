@@ -1,10 +1,11 @@
 {
   "title": "STAR WARS - MEET YOUR MATCH",
-  "subtitle": "WHICH CHARACTER ARE YOU?",
-  "startButton": "Initialize",
+  "subtitle": "MEET YOUR MATCH",
+  "startButton": "Take the test",
   "guaranteedResultId": "obiwan",
   "start": {
-    "image": "assets/star-wars-heroes.gif"
+    "image": "assets/star-wars-heroes.gif",
+    "logo": "assets/star-wars.svg"
   },
   "result": {
     "id": "obiwan",
