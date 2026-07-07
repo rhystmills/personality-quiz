@@ -5,7 +5,8 @@
   "guaranteedResultId": "obiwan",
   "start": {
     "image": "assets/star-wars-heroes.gif",
-    "logo": "assets/star-wars.svg"
+    "logo": "assets/star-wars.svg",
+    "fade": "assets/rednblue2.png"
   },
   "result": {
     "id": "obiwan",

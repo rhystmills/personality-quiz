@@ -101,6 +101,8 @@ class QuizScene extends Phaser.Scene {
     this.load.image(this.quiz.result.image, this.quiz.result.image)
     this.load.image(this.quiz.start.image, this.quiz.start.image)
     this.load.svg(this.quiz.start.logo, this.quiz.start.logo)
+    this.load.image(this.quiz.start.fade, this.quiz.start.fade)
+  
 
     this.load.once("complete", () => {
       if (this.state === "start") {
@@ -148,6 +150,8 @@ class QuizScene extends Phaser.Scene {
     this.state = "start";
     this.clearScreen();
     this.drawBackground();
+    // this.drawStartEdgeGradients();
+    this.startGridPulseField();
     this.startStarburst();
     this.drawStartArt();
 
@@ -185,6 +189,85 @@ class QuizScene extends Phaser.Scene {
         color: "#93a8b8"
       }))
       .setOrigin(0.5);
+  }
+
+  // drawStartEdgeGradients() {
+  //   const leftCenter = { x: -245, y: 108 };
+  //   const rightCenter = { x: WIDTH + 245, y: HEIGHT - 102 };
+  //   const rings = [
+  //     { radius: 360, alpha: 0.08 },
+  //     { radius: 300, alpha: 0.12 },
+  //     { radius: 240, alpha: 0.16 },
+  //     { radius: 180, alpha: 0.2 }
+  //   ];
+
+  //   rings.forEach(({ radius, alpha }) => {
+  //     this.add.circle(leftCenter.x, leftCenter.y, radius, COLORS.red, alpha).setDepth(1);
+  //     this.add.circle(rightCenter.x, rightCenter.y, radius, COLORS.blue, alpha).setDepth(1);
+  //   });
+  // }
+
+  startGridPulseField() {
+    for (let i = 0; i < 3; i += 1) {
+      const pulse = this.createGridPulse(
+        Phaser.Math.Between(110, WIDTH - 110),
+        Phaser.Math.Between(90, HEIGHT - 90),
+        Phaser.Math.Between(120, 185)
+      );
+      pulse.alpha = 0;
+
+      this.tweens.add({
+        targets: pulse,
+        alpha: { from: 0, to: Phaser.Math.FloatBetween(0.55, 0.78) },
+        duration: Phaser.Math.Between(3000, 4600),
+        ease: "Sine.easeInOut",
+        yoyo: true,
+        repeat: -1,
+        repeatDelay: Phaser.Math.Between(500, 1200),
+        delay: Phaser.Math.Between(0, 2200)
+      });
+    }
+  }
+
+  createGridPulse(centerX, centerY, radius) {
+    const pulse = this.add.container(0, 0);
+    const xStep = 32;
+    const yStep = 24;
+
+    for (let x = 0; x <= WIDTH; x += xStep) {
+      for (let y = 0; y <= HEIGHT; y += yStep) {
+        const distance = Phaser.Math.Distance.Between(x, y, centerX, centerY);
+        if (distance > radius) {
+          continue;
+        }
+
+        const normalized = 1 - distance / radius;
+        const nodeAlpha = 0.08 + normalized * 0.28;
+        const nodeSize = normalized > 0.72 ? 5 : 3;
+        const node = this.add.rectangle(x, y, nodeSize, nodeSize, COLORS.cyan, nodeAlpha).setOrigin(0.5);
+        pulse.add(node);
+
+        if (x + xStep <= WIDTH) {
+          const rightDistance = Phaser.Math.Distance.Between(x + xStep, y, centerX, centerY);
+          if (rightDistance <= radius) {
+            const segmentAlpha = 0.04 + normalized * 0.18;
+            const hSegment = this.add.rectangle(x + xStep / 2, y, xStep - 6, 2, COLORS.cyan, segmentAlpha).setOrigin(0.5);
+            pulse.add(hSegment);
+          }
+        }
+
+        if (y + yStep <= HEIGHT) {
+          const downDistance = Phaser.Math.Distance.Between(x, y + yStep, centerX, centerY);
+          if (downDistance <= radius) {
+            const segmentAlpha = 0.04 + normalized * 0.18;
+            const vSegment = this.add.rectangle(x, y + yStep / 2, 2, yStep - 4, COLORS.cyan, segmentAlpha).setOrigin(0.5);
+            pulse.add(vSegment);
+          }
+        }
+      }
+    }
+
+    return pulse;
   }
 
   startStarburst() {
@@ -265,6 +348,7 @@ class QuizScene extends Phaser.Scene {
       .setDisplaySize(640, 214)
       .setDepth(0)
       .setAlpha(0.4);
+    this.add.image(WIDTH / 2, HEIGHT / 2, this.quiz.start.fade)
     this.add
       .particles(0, 0, "spark", {
         x: { min: 220, max: 420 },
@@ -707,28 +791,124 @@ class QuizScene extends Phaser.Scene {
   }
 
   drawButton(x, y, width, height, label, onClick, depth = 0) {
-    const bg = this.add.rectangle(x, y, width, height, COLORS.amber).setOrigin(0).setDepth(depth);
-    const border = this.add.rectangle(x, y, width, height).setOrigin(0).setStrokeStyle(2, COLORS.cyan, 0.9).setDepth(depth);
-    const text = this.add
-      .text(x + width / 2, y + height / 2, label, textStyle({
-        fontFamily: FONT_TITLE,
-        fontSize: "19px",
-        color: "#03050a"
-      }))
-      .setOrigin(0.5)
-      .setDepth(depth);
+    const notch = Math.min(20, Math.round(height * 0.48));
+    const halfHeight = height / 2;
+    const halfWidth = width / 2;
+    const points = [
+      -halfWidth, 0,
+      -halfWidth + notch, -halfHeight,
+      halfWidth - notch, -halfHeight,
+      halfWidth, 0,
+      halfWidth - notch, halfHeight,
+      -halfWidth + notch, halfHeight
+    ];
 
-    bg.setInteractive({ useHandCursor: true });
-    bg.on("pointerover", () => {
-      this.tweens.add({ targets: [bg, border, text], scaleX: 1.035, scaleY: 1.035, duration: 120 });
-    });
-    bg.on("pointerout", () => {
-      this.tweens.add({ targets: [bg, border, text], scaleX: 1, scaleY: 1, duration: 120 });
-    });
-    bg.on("pointerdown", onClick);
-    if (depth !== undefined){
-      bg.depth = depth
+    const centerX = x + halfWidth;
+    const centerY = y + halfHeight;
+    const container = this.add.container(centerX, centerY).setDepth(depth);
+
+    const glow = this.add.graphics();
+    glow.fillStyle(COLORS.cyan, 0.1);
+    glow.lineStyle(6, COLORS.cyan, 0.1);
+    glow.beginPath();
+    glow.moveTo(points[0], points[1]);
+    for (let i = 2; i < points.length; i += 2) {
+      glow.lineTo(points[i], points[i + 1]);
     }
+    glow.closePath();
+    glow.fillPath();
+    glow.strokePath();
+
+    const bg = this.add.graphics();
+    bg.fillStyle(COLORS.ink, 0.96);
+    bg.lineStyle(2, COLORS.cyan, 0.95);
+    bg.beginPath();
+    bg.moveTo(points[0], points[1]);
+    for (let i = 2; i < points.length; i += 2) {
+      bg.lineTo(points[i], points[i + 1]);
+    }
+    bg.closePath();
+    bg.fillPath();
+    bg.strokePath();
+
+    const accent = this.add.graphics();
+    accent.lineStyle(1, COLORS.cyan, 0.24);
+    accent.beginPath();
+    accent.moveTo(-halfWidth + notch + 6, -halfHeight + 6);
+    accent.lineTo(halfWidth - notch - 6, -halfHeight + 6);
+    accent.moveTo(-halfWidth + notch + 6, halfHeight - 6);
+    accent.lineTo(halfWidth - notch - 6, halfHeight - 6);
+    // accent.strokePath();
+
+    const text = this.add
+      .text(0, 0, label, textStyle({
+        fontFamily: FONT_TITLE,
+        fontSize: "18px",
+        color: "#37d5ff"
+      }))
+      .setOrigin(0.5);
+
+    container.add([glow, bg, accent, text]);
+
+    const hitArea = new Phaser.Geom.Polygon([
+      new Phaser.Geom.Point(points[0], points[1]),
+      new Phaser.Geom.Point(points[2], points[3]),
+      new Phaser.Geom.Point(points[4], points[5]),
+      new Phaser.Geom.Point(points[6], points[7]),
+      new Phaser.Geom.Point(points[8], points[9]),
+      new Phaser.Geom.Point(points[10], points[11])
+    ]);
+
+    container.setInteractive(hitArea, Phaser.Geom.Polygon.Contains);
+    container.input.cursor = "pointer";
+
+    container.on("pointerover", () => {
+      this.tweens.killTweensOf([container, glow, text]);
+      this.tweens.add({
+        targets: container,
+        scaleX: 1.04,
+        scaleY: 1.04,
+        duration: 130,
+        ease: "Quad.easeOut"
+      });
+      this.tweens.add({
+        targets: glow,
+        alpha: 1.35,
+        duration: 130,
+        ease: "Quad.easeOut"
+      });
+      this.tweens.add({
+        targets: text,
+        alpha: 1,
+        duration: 130,
+        ease: "Quad.easeOut"
+      });
+    });
+
+    container.on("pointerout", () => {
+      this.tweens.killTweensOf([container, glow, text]);
+      this.tweens.add({
+        targets: container,
+        scaleX: 1,
+        scaleY: 1,
+        duration: 130,
+        ease: "Quad.easeOut"
+      });
+      this.tweens.add({
+        targets: glow,
+        alpha: 1,
+        duration: 130,
+        ease: "Quad.easeOut"
+      });
+      this.tweens.add({
+        targets: text,
+        alpha: 0.94,
+        duration: 130,
+        ease: "Quad.easeOut"
+      });
+    });
+
+    container.on("pointerdown", onClick);
   }
 
   drawBackground() {
@@ -739,9 +919,6 @@ class QuizScene extends Phaser.Scene {
       const alpha = 0.18 + ((i % 5) * 0.08);
       this.add.rectangle(x, y, i % 7 === 0 ? 2 : 1, 1, 0xffffff, alpha).setOrigin(0);
     }
-
-    this.add.circle(92, 66, 86, COLORS.red, 0.1);
-    this.add.circle(520, 405, 118, COLORS.blue, 0.12);
 
     const grid = this.add.graphics();
     grid.lineStyle(1, COLORS.cyan, 0.06);
