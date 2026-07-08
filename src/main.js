@@ -101,6 +101,7 @@ class QuizScene extends Phaser.Scene {
     this.load.image(this.quiz.result.image, this.quiz.result.image)
     this.load.image(this.quiz.start.image, this.quiz.start.image)
     this.load.svg(this.quiz.start.logo, this.quiz.start.logo)
+    this.load.svg(this.quiz.start.percival, this.quiz.start.percival)
     this.load.image(this.quiz.start.fade, this.quiz.start.fade)
   
 
@@ -184,7 +185,7 @@ class QuizScene extends Phaser.Scene {
     }, 1);
 
     this.add
-      .text(WIDTH / 2, 430, "A Percival WebSystems WebSystem", textStyle({
+      .text(WIDTH / 2, 430, "© Percival Software", textStyle({
         fontSize: "12px",
         color: "#93a8b8"
       }))
@@ -344,6 +345,9 @@ class QuizScene extends Phaser.Scene {
 
     this.add.image(WIDTH / 2, 80, this.quiz.start.logo)
       .setDisplaySize(200,90)
+    this.add.image(WIDTH / 2 + 220, 430, this.quiz.start.percival)
+      .setDisplaySize(160,70)
+      .setAlpha(0.5)
     this.add.image(WIDTH / 2, 280, this.quiz.start.image)
       .setDisplaySize(640, 214)
       .setDepth(0)
@@ -406,14 +410,70 @@ class QuizScene extends Phaser.Scene {
 
   drawAnswer(answer, index) {
     const y = QUESTION_HEIGHT + index * ANSWER_HEIGHT;
-    const fill = index % 2 === 0 ? COLORS.panelAlt : 0x09131d;
-    const hit = this.add.rectangle(0, y, WIDTH, ANSWER_HEIGHT, fill).setOrigin(0);
-    const border = this.add.rectangle(0, y, WIDTH, ANSWER_HEIGHT).setOrigin(0);
-    border.setStrokeStyle(1, COLORS.cyan, 0.18);
-    this.add.rectangle(14, y + 10, 32, ANSWER_HEIGHT - 20, COLORS.cyan, 0.08).setOrigin(0);
+    const width = WIDTH;
+    const height = ANSWER_HEIGHT;
+    const notch = Math.min(20, Math.round(height * 0.48));
+    const halfWidth = width / 2;
+    const halfHeight = height / 2;
+    const points = [
+      -halfWidth, 0,
+      -halfWidth + notch, -halfHeight,
+      halfWidth - notch, -halfHeight,
+      halfWidth, 0,
+      halfWidth - notch, halfHeight,
+      -halfWidth + notch, halfHeight
+    ];
+    const centerX = WIDTH / 2;
+    const centerY = y + halfHeight;
+    const container = this.add.container(centerX, centerY);
 
+    const glow = this.add.graphics();
+    glow.fillStyle(COLORS.amber, 0.05);
+    glow.lineStyle(6, COLORS.amber, 0.05);
+    glow.beginPath();
+    glow.moveTo(points[0], points[1]);
+    for (let i = 2; i < points.length; i += 2) {
+      glow.lineTo(points[i], points[i + 1]);
+    }
+    glow.closePath();
+    glow.fillPath();
+    glow.strokePath();
+
+    const bg = this.add.graphics();
+    bg.fillStyle(index % 2 === 0 ? COLORS.panelAlt : 0x09131d, 0.96);
+    bg.lineStyle(2, COLORS.cyan, 0.3);
+    bg.beginPath();
+    bg.moveTo(points[0], points[1]);
+    for (let i = 2; i < points.length; i += 2) {
+      bg.lineTo(points[i], points[i + 1]);
+    }
+    bg.closePath();
+    bg.fillPath();
+    bg.strokePath();
+
+    const hoverBorder = this.add.graphics().setAlpha(0);
+    hoverBorder.lineStyle(3, COLORS.amber, 0.95);
+    hoverBorder.beginPath();
+    hoverBorder.moveTo(points[0], points[1]);
+    for (let i = 2; i < points.length; i += 2) {
+      hoverBorder.lineTo(points[i], points[i + 1]);
+    }
+    hoverBorder.closePath();
+    hoverBorder.strokePath();
+
+    const accent = this.add.graphics();
+    accent.lineStyle(1, COLORS.cyan, 0.12);
+    accent.beginPath();
+    accent.moveTo(-halfWidth + notch + 6, -halfHeight + 6);
+    accent.lineTo(halfWidth - notch - 6, -halfHeight + 6);
+    accent.moveTo(-halfWidth + notch + 6, halfHeight - 6);
+    accent.lineTo(halfWidth - notch - 6, halfHeight - 6);
+    accent.strokePath();
+
+    const arrowGlow = this.add.image(-halfWidth + 30, 0, "arrow").setAlpha(0).setTint(COLORS.amber);
+    const arrow = this.add.image(-halfWidth + 30, 0, "arrow").setAlpha(0.78);
     const label = this.add
-      .text(72, y + ANSWER_HEIGHT / 2, answer, textStyle({
+      .text(-halfWidth + 70, 0, answer, textStyle({
         fontSize: "14px",
         color: "#f2f7ff",
         lineSpacing: 3,
@@ -421,14 +481,36 @@ class QuizScene extends Phaser.Scene {
       }))
       .setOrigin(0, 0.5);
 
-    const arrow = this.add.image(34, y + ANSWER_HEIGHT / 2, "arrow").setAlpha(0.7);
-    const hotspot = { index, hit, border, label, arrow, y };
+    container.add([glow, bg, hoverBorder, accent, arrowGlow, arrow, label]);
+
+    const hitArea = new Phaser.Geom.Polygon([
+      new Phaser.Geom.Point(points[0], points[1]),
+      new Phaser.Geom.Point(points[2], points[3]),
+      new Phaser.Geom.Point(points[4], points[5]),
+      new Phaser.Geom.Point(points[6], points[7]),
+      new Phaser.Geom.Point(points[8], points[9]),
+      new Phaser.Geom.Point(points[10], points[11])
+    ]);
+
+    container.setInteractive(hitArea, Phaser.Geom.Polygon.Contains);
+    container.input.cursor = "pointer";
+
+    const hotspot = {
+      index,
+      container,
+      glow,
+      hoverBorder,
+      label,
+      arrowGlow,
+      arrow,
+      arrowBaseX: -halfWidth + 30,
+      y
+    };
     this.hotspots.push(hotspot);
 
-    hit.setInteractive({ useHandCursor: true });
-    hit.on("pointerover", () => this.setAnswerHover(hotspot, true));
-    hit.on("pointerout", () => this.setAnswerHover(hotspot, false));
-    hit.on("pointerdown", () => this.chooseAnswer(index));
+    container.on("pointerover", () => this.setAnswerHover(hotspot, true));
+    container.on("pointerout", () => this.setAnswerHover(hotspot, false));
+    container.on("pointerdown", () => this.chooseAnswer(index));
   }
 
   drawProgress() {
@@ -457,21 +539,50 @@ class QuizScene extends Phaser.Scene {
   }
 
   setAnswerHover(hotspot, active) {
-    this.tweens.killTweensOf([hotspot.hit, hotspot.arrow, hotspot.label]);
+    this.tweens.killTweensOf([
+      hotspot.container,
+      hotspot.glow,
+      hotspot.hoverBorder,
+      hotspot.arrowGlow,
+      hotspot.arrow,
+      hotspot.label
+    ]);
     this.tweens.add({
-      targets: hotspot.hit,
-      alpha: active ? 0.88 : 1,
+      targets: hotspot.container,
+      scaleX: active ? 1.01 : 1,
+      scaleY: active ? 1.01 : 1,
       duration: 140,
       ease: "Quad.easeOut"
     });
     this.tweens.add({
+      targets: hotspot.glow,
+      alpha: active ? 1.6 : 1,
+      duration: 140,
+      ease: "Quad.easeOut"
+    });
+    this.tweens.add({
+      targets: hotspot.hoverBorder,
+      alpha: active ? 1 : 0,
+      duration: 140,
+      ease: "Quad.easeOut"
+    });
+    this.tweens.add({
+      targets: hotspot.arrowGlow,
+      x: active ? hotspot.arrowBaseX + 10 : hotspot.arrowBaseX,
+      alpha: active ? 0.95 : 0,
+      scaleX: active ? 1.28 : 1,
+      scaleY: active ? 1.28 : 1,
+      duration: 160,
+      ease: "Back.easeOut"
+    });
+    this.tweens.add({
       targets: hotspot.arrow,
-      x: active ? 44 : 34,
+      x: active ? hotspot.arrowBaseX + 10 : hotspot.arrowBaseX,
       alpha: active ? 1 : 0.7,
       duration: 160,
       ease: "Back.easeOut"
     });
-    hotspot.border.setStrokeStyle(2, active ? COLORS.amber : COLORS.cyan, active ? 0.86 : 0.18);
+    hotspot.arrow.setTint(active ? COLORS.amber : COLORS.cyan);
     hotspot.label.setColor(active ? "#fff2b8" : "#f2f7ff");
   }
 
@@ -481,7 +592,7 @@ class QuizScene extends Phaser.Scene {
 
     const selected = this.hotspots[index];
     this.tweens.add({
-      targets: selected.hit,
+      targets: selected.container,
       alpha: 0.45,
       yoyo: true,
       duration: 110,

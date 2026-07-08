@@ -6,7 +6,8 @@
   "start": {
     "image": "assets/star-wars-heroes.gif",
     "logo": "assets/star-wars.svg",
-    "fade": "assets/rednblue2.png"
+    "fade": "assets/rednblue2.png",
+    "percival": "assets/percival-logo-white.svg"
   },
   "result": {
     "id": "obiwan",
