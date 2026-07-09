@@ -44,6 +44,7 @@ class QuizScene extends Phaser.Scene {
     this.hotspots = [];
     this.choiceTicker = null;
     this.screenTimers = [];
+    this.pendingScreen = "loading";
   }
 
   preload() {
@@ -52,21 +53,14 @@ class QuizScene extends Phaser.Scene {
 
   create() {
     this.quiz = this.cache.json.get("quiz");
-    this.loadQuizImages();
 
     this.cameras.main.setBackgroundColor(COLORS.background);
     this.input.setDefaultCursor("default");
     this.drawTextureLibrary();
 
-    // Check for a query parameter to jump to a specific screen
     const params = new URLSearchParams(window.location.search);
-    const targetScreen = params.get('screen');
-
-    if (targetScreen) {
-      this.jumpToScreen(targetScreen);
-    } else {
-      this.showStart();
-    }
+    this.pendingScreen = params.get("screen") || "loading";
+    this.loadQuizImages();
   }
 
   jumpToScreen(screen) {
@@ -103,12 +97,14 @@ class QuizScene extends Phaser.Scene {
     this.load.svg(this.quiz.start.logo, this.quiz.start.logo)
     this.load.svg(this.quiz.start.percival, this.quiz.start.percival)
     this.load.image(this.quiz.start.fade, this.quiz.start.fade)
+    this.load.image(this.quiz.loading.blastDoorLeftUpper, this.quiz.loading.blastDoorLeftUpper)
+    this.load.image(this.quiz.loading.blastDoorLeftLower, this.quiz.loading.blastDoorLeftLower)
+    this.load.image(this.quiz.loading.blastDoorRightUpper, this.quiz.loading.blastDoorRightUpper)
+    this.load.image(this.quiz.loading.blastDoorRightLower, this.quiz.loading.blastDoorRightLower)
   
 
     this.load.once("complete", () => {
-      if (this.state === "start") {
-        this.drawStartArt();
-      }
+      this.jumpToScreen(this.pendingScreen);
     });
     this.load.start();
   }
@@ -147,9 +143,7 @@ class QuizScene extends Phaser.Scene {
     return timer;
   }
 
-  showStart() {
-    this.state = "start";
-    this.clearScreen();
+  drawStartScene() {
     this.drawBackground();
     // this.drawStartEdgeGradients();
     this.startGridPulseField();
@@ -190,6 +184,53 @@ class QuizScene extends Phaser.Scene {
         color: "#93a8b8"
       }))
       .setOrigin(0.5);
+  }
+  
+  showStart() {
+    this.state = "start";
+    this.clearScreen();
+    this.drawStartScene();
+    this.drawBlastDoors();
+  }
+
+  drawBlastDoors() {
+    const leftUpper = this.add.image(0, 0, this.quiz.loading.blastDoorLeftUpper).setOrigin(0, 0).setDepth(10);
+    const leftLower = this.add.image(0, HEIGHT, this.quiz.loading.blastDoorLeftLower).setOrigin(0, 1).setDepth(11);
+    const rightUpper = this.add.image(WIDTH, 0, this.quiz.loading.blastDoorRightUpper).setOrigin(1, 0).setDepth(11);
+    const rightLower = this.add.image(WIDTH, HEIGHT, this.quiz.loading.blastDoorRightLower).setOrigin(1, 1).setDepth(10);
+
+    const leftTargetX = -leftUpper.displayWidth;
+    const rightTargetX = WIDTH + rightUpper.displayWidth;
+
+    this.trackTimer(
+      this.time.delayedCall(1000, () => {
+        const duration = 1250;
+        const ease = "Cubic.easeInOut";
+        [leftUpper, leftLower].forEach((doorPart) => {
+          this.tweens.add({
+            targets: doorPart,
+            x: leftTargetX,
+            duration,
+            ease
+          });
+        });
+        [rightUpper, rightLower].forEach((doorPart) => {
+          this.tweens.add({
+            targets: doorPart,
+            x: rightTargetX,
+            duration,
+            ease
+          });
+        });
+
+        this.trackTimer(
+          this.time.delayedCall(duration + 60, () => {
+            [leftUpper, leftLower, rightUpper, rightLower].forEach((doorPart) => doorPart.destroy());
+            this.state = "start";
+          })
+        );
+      })
+    );
   }
 
   // drawStartEdgeGradients() {
@@ -345,9 +386,6 @@ class QuizScene extends Phaser.Scene {
 
     this.add.image(WIDTH / 2, 80, this.quiz.start.logo)
       .setDisplaySize(200,90)
-    this.add.image(WIDTH / 2 + 220, 430, this.quiz.start.percival)
-      .setDisplaySize(160,70)
-      .setAlpha(0.5)
     this.add.image(WIDTH / 2, 280, this.quiz.start.image)
       .setDisplaySize(640, 214)
       .setDepth(0)

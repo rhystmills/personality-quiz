@@ -3,6 +3,12 @@
   "subtitle": "MEET YOUR MATCH",
   "startButton": "Take the test",
   "guaranteedResultId": "obiwan",
+  "loading":{
+    "blastDoorLeftUpper": "assets/blast-door-left-upper.png",
+    "blastDoorLeftLower": "assets/blast-door-left-lower.png",
+    "blastDoorRightUpper": "assets/blast-door-right-upper.png",
+    "blastDoorRightLower": "assets/blast-door-right-lower.png"
+  },
   "start": {
     "image": "assets/star-wars-heroes.gif",
     "logo": "assets/star-wars.svg",
