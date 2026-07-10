@@ -65,6 +65,9 @@ class QuizScene extends Phaser.Scene {
 
   jumpToScreen(screen) {
     switch (screen) {
+      case 'loading':
+        this.showLoading();
+        break;
       case 'start':
         this.showStart();
         break;
@@ -101,6 +104,10 @@ class QuizScene extends Phaser.Scene {
     this.load.image(this.quiz.loading.blastDoorLeftLower, this.quiz.loading.blastDoorLeftLower)
     this.load.image(this.quiz.loading.blastDoorRightUpper, this.quiz.loading.blastDoorRightUpper)
     this.load.image(this.quiz.loading.blastDoorRightLower, this.quiz.loading.blastDoorRightLower)
+    this.load.image(this.quiz.loading.secondDoorTop, this.quiz.loading.secondDoorTop)
+    this.load.image(this.quiz.loading.secondDoorBottom, this.quiz.loading.secondDoorBottom)
+    this.load.image(this.quiz.loading.secondDoorBar, this.quiz.loading.secondDoorBar)
+    this.load.image(this.quiz.loading.secondDoorClasp, this.quiz.loading.secondDoorClasp)
   
 
     this.load.once("complete", () => {
@@ -190,14 +197,21 @@ class QuizScene extends Phaser.Scene {
     this.state = "start";
     this.clearScreen();
     this.drawStartScene();
+  }
+
+  showLoading() {
+    this.state = "loading";
+    this.clearScreen();
+    this.drawStartScene();
+    this.drawSecondDoorLayer();
     this.drawBlastDoors();
   }
 
   drawBlastDoors() {
-    const leftUpper = this.add.image(0, 0, this.quiz.loading.blastDoorLeftUpper).setOrigin(0, 0).setDepth(10);
-    const leftLower = this.add.image(0, HEIGHT, this.quiz.loading.blastDoorLeftLower).setOrigin(0, 1).setDepth(11);
-    const rightUpper = this.add.image(WIDTH, 0, this.quiz.loading.blastDoorRightUpper).setOrigin(1, 0).setDepth(11);
-    const rightLower = this.add.image(WIDTH, HEIGHT, this.quiz.loading.blastDoorRightLower).setOrigin(1, 1).setDepth(10);
+    const leftUpper = this.add.image(0, 0, this.quiz.loading.blastDoorLeftUpper).setOrigin(0, 0).setDepth(19);
+    const leftLower = this.add.image(0, HEIGHT, this.quiz.loading.blastDoorLeftLower).setOrigin(0, 1).setDepth(20);
+    const rightUpper = this.add.image(WIDTH, 0, this.quiz.loading.blastDoorRightUpper).setOrigin(1, 0).setDepth(20);
+    const rightLower = this.add.image(WIDTH, HEIGHT, this.quiz.loading.blastDoorRightLower).setOrigin(1, 1).setDepth(19);
 
     const leftTargetX = -leftUpper.displayWidth;
     const rightTargetX = WIDTH + rightUpper.displayWidth;
@@ -224,9 +238,84 @@ class QuizScene extends Phaser.Scene {
         });
 
         this.trackTimer(
-          this.time.delayedCall(duration + 60, () => {
+          this.time.delayedCall(duration + 80, () => {
             [leftUpper, leftLower, rightUpper, rightLower].forEach((doorPart) => doorPart.destroy());
-            this.state = "start";
+          })
+        );
+      })
+    );
+  }
+
+  drawSecondDoorLayer() {
+    const topPanel = this.add.image(WIDTH / 2, 0, this.quiz.loading.secondDoorTop).setOrigin(0.5, 0).setDepth(10);
+    const bottomPanel = this.add.image(WIDTH / 2, HEIGHT, this.quiz.loading.secondDoorBottom).setOrigin(0.5, 1).setDepth(10);
+
+    const topBarY = Math.round(110);
+    const bottomBarY = Math.round(370);
+    const topBar = this.add.image(WIDTH / 2, topBarY, this.quiz.loading.secondDoorBar).setOrigin(0.5, 0.5).setFlipY(true).setDepth(12);
+    const bottomBar = this.add.image(WIDTH / 2, bottomBarY, this.quiz.loading.secondDoorBar).setOrigin(0.5, 0.5).setFlipX(true).setDepth(12);
+
+    const claspXs = [Math.round(238), Math.round(428)];
+    const topClasps = claspXs.map((x) =>
+      this.add.image(x, topBarY - 1, this.quiz.loading.secondDoorClasp).setOrigin(0.5, 0.5).setDepth(13)
+    );
+    const bottomClasps = claspXs.map((x) =>
+      this.add.image(x, bottomBarY - 1, this.quiz.loading.secondDoorClasp).setOrigin(0.5, 0.5).setDepth(13)
+    );
+
+    this.trackTimer(
+      this.time.delayedCall(2000, () => {
+        const duration = 1100;
+        this.tweens.add({
+          targets: topBar,
+          x: -topBar.displayWidth / 2,
+          duration,
+          ease: "Cubic.easeInOut"
+        });
+        this.tweens.add({
+          targets: bottomBar,
+          x: WIDTH + bottomBar.displayWidth / 2,
+          duration,
+          ease: "Cubic.easeInOut"
+        });
+      })
+    );
+
+    this.trackTimer(
+      this.time.delayedCall(3000, () => {
+        const duration = 1250;
+        this.tweens.add({
+          targets: [topPanel],
+          y: -topPanel.displayHeight,
+          duration,
+          ease: "Cubic.easeInOut"
+        });
+        this.tweens.add({
+          targets: [...topClasps],
+          y: -120,
+          duration,
+          ease: "Cubic.easeInOut"
+        });
+        this.tweens.add({
+          targets: [bottomPanel],
+          y: HEIGHT + bottomPanel.displayHeight,
+          duration,
+          ease: "Cubic.easeInOut"
+        });
+        this.tweens.add({
+          targets: [...bottomClasps],
+          y: 610,
+          duration,
+          ease: "Cubic.easeInOut"
+        });
+        
+
+        this.trackTimer(
+          this.time.delayedCall(duration + 80, () => {
+            [topPanel, bottomPanel, topBar, bottomBar, ...topClasps, ...bottomClasps].forEach((part) => part.destroy());
+            if (this.state === "loading") {
+              this.state = "start";
+            }
           })
         );
       })

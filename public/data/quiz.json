@@ -7,7 +7,11 @@
     "blastDoorLeftUpper": "assets/blast-door-left-upper.png",
     "blastDoorLeftLower": "assets/blast-door-left-lower.png",
     "blastDoorRightUpper": "assets/blast-door-right-upper.png",
-    "blastDoorRightLower": "assets/blast-door-right-lower.png"
+    "blastDoorRightLower": "assets/blast-door-right-lower.png",
+    "secondDoorTop": "assets/door-top.png",
+    "secondDoorBottom": "assets/door-bottom.png",
+    "secondDoorBar": "assets/door-bar.png",
+    "secondDoorClasp": "assets/metal-clasp.png"
   },
   "start": {
     "image": "assets/star-wars-heroes.gif",
